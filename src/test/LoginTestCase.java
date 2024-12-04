@@ -1,10 +1,13 @@
+package test;
+
+import main.LoginApp;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class LoginTestCases {
-        private LoginApp loginApp;
 
+public class LoginTestCase {
+        private LoginApp loginApp;
 
         @Test
         public void testValidLogin() {
@@ -20,36 +23,36 @@ public class LoginTestCases {
         public void testInvalidEmail() {
             loginApp = new LoginApp();
             String userName = loginApp.authenticateUser("invalid@example.com", "password123");
-            assertEquals(null,userName);
+            assertNull(userName);
 
             userName = loginApp.authenticateUser("invalid@example.com","password456");
-            assertEquals(null,userName);
+            assertNull(userName);
         }
 
         @Test
         public void testInvalidPassword() {
             loginApp = new LoginApp();
             String userName = loginApp.authenticateUser("johndoe@example.com","invalidPassword");
-            assertEquals(null,userName);
+            assertNull(userName);
 
             userName = loginApp.authenticateUser("janesmith@example.com","invalid");
-            assertEquals(null,userName);
+            assertNull(userName);
         }
 
         @Test
         public void testEmptyFields() {
             loginApp = new LoginApp();
             String userName = loginApp.authenticateUser("", "password123");
-            assertEquals(null,userName);
+            assertNull(userName);
 
             userName= loginApp.authenticateUser("janesmith@example.com", "");
-            assertEquals(null,userName);
+            assertNull(userName);
         }
 
         @Test
         public void testSQLAttack() {
             loginApp = new LoginApp();
             String userName = loginApp.authenticateUser("johndoe@example.com","invalid\"' OR '1'='1\"");
-            assertEquals(null,userName);
+            assertNull(userName);
         }
 }
