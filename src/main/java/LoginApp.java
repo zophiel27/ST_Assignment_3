@@ -1,3 +1,5 @@
+package main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginApp extends JFrame {
     private JTextField emailField;
@@ -47,7 +51,7 @@ public class LoginApp extends JFrame {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword()); // Password is ignored for validation
 
-            String userName = authenticateUser(email);
+            String userName = authenticateUser(email, password);
             if (userName != null) {
                 JOptionPane.showMessageDialog(null, "Welcome, " + userName + "!", "Login Successful", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -56,22 +60,43 @@ public class LoginApp extends JFrame {
         }
     }
 
-    private String authenticateUser(String email) {
-        String userName = null;
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
-            String query = "SELECT name FROM User WHERE Email = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, email);
-            ResultSet rs = stmt.executeQuery();
+//    private String authenticateUser(String email) {
+//        String userName = null;
+//        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+//            String query = "SELECT name FROM User WHERE Email = ?";
+//            PreparedStatement stmt = conn.prepareStatement(query);
+//            stmt.setString(1, email);
+//            ResultSet rs = stmt.executeQuery();
+//
+//            if (rs.next()) {
+//                userName = rs.getString("Name");
+//            }
+//            rs.close();
+//            stmt.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return userName;
+//    }
 
-            if (rs.next()) {
-                userName = rs.getString("Name");
+    public String authenticateUser(String email, String password) {
+        String userName = null;
+
+        Map<String, String> users = new HashMap<>();
+        users.put("johndoe@example.com", "John Doe");
+        users.put("janesmith@example.com", "Jane Smith");
+        users.put("mikejohnson@example.com", "Mike Johnson");
+        users.put("alicebrown@example.com", "Alice Brown");
+        users.put("tomclark@example.com", "Tom Clark");
+
+        try {
+            if (users.containsKey(email)) {
+//                userName = users.get(email);
             }
-            rs.close();
-            stmt.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return userName;
     }
 
